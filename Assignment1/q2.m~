@@ -32,23 +32,19 @@ end
 
 function powers = goertzel(inp, k, N)
 
-    % k is the normalised frequency
-    % N is the window size
-    
+
     coeff = 2*cos(2*pi*k);
     powers = zeros(length(inp),1);
     
-    for i=1:length(inp)-N % for each element
+    for i=1:length(inp)-N
         s = 0;
         sm1 = 0;
         sm2 = 0;
-        for j=i:i+N-1 % make a sliding window from i to i+N-1
+        for j=i:i+N-1
             s = coeff*sm1 - sm2 + inp(j);
             sm2 = sm1;
             sm1 = s;
         end
-        
-        % calculate total power over the window
         powers(i) = sm2^2 + sm1^2 - coeff*sm1*sm2;
     end
 end
